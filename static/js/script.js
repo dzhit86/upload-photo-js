@@ -87,7 +87,7 @@ function uploadImage () {
     .then(data => {
         console.log("Полученный объект до сортировки: ", data)
         data.sort((prev, next) => {prev.position - next.position});
-        data.sort(compare);
+        data.sort(comparePositions);
         console.log("Полученный объект после сортировки: ", data)
       removePreviewImage(document.querySelector(`[data-img-name="${file.name}"]`));
       changeStateButtons();
