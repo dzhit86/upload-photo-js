@@ -103,6 +103,7 @@ function uploadImage () {
                 if (data.length) {insertImage(element, min, max)}
                 else {insertImage(element, min)};
             } 
+            showUploadMessage();
             selectFirstPoto(document.querySelectorAll(".section__postAnAdUpload-gallery-item")[0]);
         } else {
             alert(data.error + " Please refresh the page");
@@ -273,6 +274,14 @@ function selectFirstPoto(element) {
     element.style.background = "#D8FDD2";
     const mark = `<span class="section__postAnAdUpload-gallery-mark">Main photo</span>`;
     element.insertAdjacentHTML("afterBegin", mark);
+}
+
+function showUploadMessage() {
+    const messageElement = `<div class="section__postAnAdUpload-action-message">Photo has been successfully uploaded</div>`;
+    actionField.insertAdjacentHTML(`afterEnd`, messageElement);
+    setTimeout(function () {
+        document.querySelector(".section__postAnAdUpload-action-message").remove();
+    }, 3000);
 }
 
 function comparePositions(a, b) { 

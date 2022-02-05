@@ -5084,6 +5084,10 @@ input::-webkit-inner-spin-button {
     padding: 20px 20px 20px 10px;
     border: 1px solid #DCDCDC;
     border-radius: 4px;
+    background: #fff;
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
 }
 .section__postAnAdUpload-action_buttons {
     display: flex;
@@ -5181,5 +5185,24 @@ input::-webkit-inner-spin-button {
     margin-bottom: 10px;
     font-size: 12px;
 }
-
+.section__postAnAdUpload-action-message {
+    font-family: Archivo, sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+    display: inline-block;
+    width: 100%;
+    padding: 10px;
+    background: rgb(216, 253, 210);
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    position: relative;
+    z-index: 1;
+    animation: postAnAdUpload-action-message 3s ease-out;
+}
+@keyframes postAnAdUpload-action-message {
+    0% {transform: translateY(-40px);}
+    10% {transform: translateY(0);}
+    90% {transform: translateY(0);}
+    100% {transform: translateY(-40px);}
+}
 /* Post an ad: Section 3 End*/
