@@ -204,10 +204,36 @@ Post An Ad - Step 3
                         <span class="section__postAnAdBtn section__postAnAdBtn-active">Upload Photos</span>
                     </div>
                 </div>
-                <form action="/therapist/20493/create-therapist-details/" method="post" class="section__editForm section__postAnAd-step2">
+                <div class="section__postAnAdRules" id="rulesBlock">
+                    <div class="section__postAnAdRules-title">Important rules</div>
+                    <div class="section__postAnAdRules-body">
+                        <ul>
+                            <li>Add a clear and accurate photo(s) to increase the number of you receive.</li>
+                            <li>Use only real photos of yourself. Photos of other people or group photos are NOT allowed.</li>
+                            <li>Upload only hight quality photos.</li>
+                            <li>You may up to 12 pictures. Max file size 4MB.</li>
+                        </ul>
+                        <p>These is not extensive list of rules, please read the Terms and Conditions and Ads Ploicy pages.</p>
+                    </div>
+                </div>
+                <div class="section__postAnAdUpload">
+                    <div class="section__postAnAdUpload-title">Upload your photo</div>
+                    <div class="section__postAnAdUpload-action">
+                        <input type="file" id="browseImage" accept=".jpg,.jpeg,.png">
+                        <button class="section__postAnAdUpload-button section__postAnAdUpload-browse">Browse</button>
+                        <button class="section__postAnAdUpload-button section__postAnAdUpload-upload" style="display: none;" disabled="true">Upload</button>
+                    </div>
+                    <div class="section__postAnAdUpload-gallery"></div>
+                </div>                
 
-                    <button type="submit" class="section__loginBtn section__loginBtn-small section__postAnAd section__postAnAd-step2">Finish</button>
-                </form>
+                <div class="section__postAnAdRules">
+                    <div class="section__postAnAdRules-body">
+                        <p>By posting this ad you agree with Terms and Conditions. 
+                            These is not extensive list of rules, please read the Terms and Conditions and Ads Policy pages.
+                            Lorem ipsum dolor sit amet, maiores ornare ac fermentum, imperdiet ut vivamus a, nam lectus at nunc. Quam euismod sem, semper ut potenti pellentesque quisque. In eget sapien sed, sit duis vestibulum ultricies, placerat morbi amet vel, nullam in in lorem vel. In molestie elit dui dictum, praesent nascetur pulvinar sed, in dolor pede in aliquam, risus nec error quis pharetra. Eros metus quam augue suspendisse, metus rutrum risus erat in.  In ultrices quo ut lectus, etiam </p>
+                            <button type="submit" class="section__loginBtn section__loginBtn-small section__postAnAd section__postAnAd-step2">Post this ad</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -516,10 +542,12 @@ Post An Ad - Step 3
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script>
-    const autocompleteHandler = "handler.php";
+    const uploadImageHandler = "handler.php";
+    const deleteImageHandler = "handler.php";
+    const changePositionImageHandler = "handler2.php";
     const csrf = "";
 </script>
-<script src="static/js/script.js"></script>
 <script src="static/js/main.js"></script>
+<script src="static/js/script.js"></script>
 </body>
 </html>

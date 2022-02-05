@@ -1,0 +1,215 @@
+const browserButton = document.querySelector(".section__postAnAdUpload-browse");
+const uploadButton = document.querySelector(".section__postAnAdUpload-upload");
+const galleryField = document.querySelector(".section__postAnAdUpload-gallery");
+const inputField = document.querySelector("#browseImage");
+const actionField = document.querySelector(".section__postAnAdUpload-action");
+
+let file = [];
+
+browserButton.addEventListener("click", browserImage);
+uploadButton.addEventListener("click", uploadImage);
+inputField.addEventListener("change", changeHandler);
+galleryField.addEventListener("click", imageHandler);
+
+function browserImage () {
+    inputField.click();
+}
+
+function changeHandler (event) {    
+    if (!event.target.files.length) {
+      return;
+    }
+    file = Array.from(event.target.files)[0];
+    if (!file.type.match("image")) {
+        return; 
+    }
+    changeStateButtons(false);
+    const reader = new FileReader();
+    reader.onload = (event) => {
+        galleryField.insertAdjacentHTML('afterbegin', `
+        <div class="section__postAnAdUpload-gallery-item _preview" id="" data-img-position="" data-img-name="${file.name}">
+        <img src="${event.target.result}" alt="${file.name}">
+        <div class="section__postAnAdUpload-gallery-action">
+            <button class="section__postAnAdUpload-gallery-action_btn section__postAnAdUpload-gallery-action_remove">Delete</button>
+        </div>
+      </div>
+        `)
+      }
+      reader.readAsDataURL(file);
+}
+
+function imageHandler (event) {
+    if (event.target.classList.contains("section__postAnAdUpload-gallery-action_remove")) {
+        removePreviewImage(event)
+    }
+    if (event.target.classList.contains("_change_position")) {
+        changePosition(event)
+    }
+}
+
+function removePreviewImage (element) {
+    if (element.target && element.target.closest("._preview")) {
+        element.target.closest("._preview").remove();
+    }
+    if (element.target && element.target.hasAttribute("data-img-id")) {
+        const id = element.target.getAttribute("data-img-id");
+        const name = document.getElementById(id).getAttribute("data-img-name");
+        const formData = new FormData();
+        const headers = new Headers();
+        //const data = {"photo_id": id}
+        formData.append("delete", name);        
+        sendPhoto(deleteImageHandler, headers, formData)
+        .then( data => {
+            galleryField.innerHTML = "";
+            for (let index = 0; index < data.length; index++) {
+                const element = data[index];
+                insertImage(element, data.length);          
+            }
+        });
+        
+    }
+    if (element.classList && element.classList.contains("_preview")) {
+        element.remove();
+    }
+    file = [];
+    inputField.value = "";
+    changeStateButtons();
+}
+
+function uploadImage () {
+    const formData = new FormData();
+    const headers = new Headers();
+    formData.append("image", file);
+    sendPhoto(uploadImageHandler, headers, formData)
+    .then(data => {
+      removePreviewImage(document.querySelector(`[data-img-name="${file.name}"]`));
+      changeStateButtons();
+      galleryField.innerHTML = "";
+      for (let index = 0; index < data.length; index++) {
+          const element = data[index];
+          if (data.length) {insertImage(element, data.length)}
+          else {insertImage(element)};
+      }
+
+    }); 
+}
+
+function changeStateButtons (state = true) {
+    if (state) {
+        browserButton.removeAttribute("disabled");
+        inputField.removeAttribute("disabled");
+        uploadButton.style.display = "none";
+        uploadButton.setAttribute("disabled", true);
+    } else {
+        browserButton.setAttribute("disabled", true);
+        inputField.setAttribute("disabled", true);
+        uploadButton.style.display = "inline-flex";
+        uploadButton.removeAttribute("disabled");
+    }
+}
+
+function insertImage (data, length=0 ) {
+    let up = "";
+    let down = "";
+    let state = "";
+    if (!data.state) {
+        state = `<span class="_verify">Photo is verified</span>`;
+    } else {
+        state = `<span class="_unverify">Photo is not verified</span><a href="#rulesBlock">(Why?)</a>`;
+    }
+
+    if (data.position > 0) {
+        up = `<button class="_change_position section__postAnAdUpload-gallery-action_btn section__postAnAdUpload-gallery-action_up">Up</button>`;
+    }
+    if (data.position < length - 1) {
+        down = `<button class="_change_position section__postAnAdUpload-gallery-action_btn section__postAnAdUpload-gallery-action_down">Down</button>`;
+    }
+    document.querySelector(".section__postAnAdUpload-gallery").insertAdjacentHTML('beforeend', `
+    <div class="section__postAnAdUpload-gallery-item" id="${data.id}" data-img-position="${data.position}" data-img-name="${data.name}">
+      <img src="${data.url}" alt="${data.name}">
+      <div class="section__postAnAdUpload-gallery-action">
+          ${up}
+          ${down}
+          <button class="section__postAnAdUpload-gallery-action_btn section__postAnAdUpload-gallery-action_remove" data-img-id="${data.id}">Delete</button>
+      </div>
+      <div class="section__postAnAdUpload-gallery-state">${state}</div>
+    </div>
+    `);
+}
+
+function changePosition(event) {
+    const currentId = event.target.closest(".section__postAnAdUpload-gallery-item").id;
+    const currentPosition = document.getElementById(currentId).getAttribute("data-img-position");
+    let anotherPosition = "";
+    if (event.target.classList.contains("section__postAnAdUpload-gallery-action_up")) {
+        anotherPosition = +currentPosition - 1;
+    }
+    if (event.target.classList.contains("section__postAnAdUpload-gallery-action_down")) {
+        anotherPosition = +currentPosition + 1;
+    }
+    
+    const anotherId = galleryField.querySelector(`[data-img-position="${anotherPosition}"]`).id;
+    const formData = new FormData();
+    const headers = new Headers();
+
+    formData.append("current_photo_id", currentId);  
+    formData.append("another_photo_id", anotherId);  
+    sendPhoto(changePositionImageHandler, headers, formData)
+    .then(data => {
+        if (data.success === "true") {
+            let currentEl = document.getElementById(currentId);
+            let anothertEl = document.getElementById(anotherId);
+
+            let temp = currentEl.outerHTML;
+            let tempCurPosition = currentEl.getAttribute("data-img-position");
+            let tempAnothPosition = anothertEl.getAttribute("data-img-position");
+
+            currentEl.outerHTML = anothertEl.outerHTML;            
+            anothertEl.outerHTML = temp;
+
+            let newCurrentEl = document.getElementById(currentId);
+            let newAnotherEl = document.getElementById(anotherId);
+            newCurrentEl.setAttribute("data-img-position", tempAnothPosition);
+            newAnotherEl.setAttribute("data-img-position", tempCurPosition);
+
+            const countItems = galleryField.querySelectorAll(".section__postAnAdUpload-gallery-item").length;
+
+            if (newCurrentEl.querySelector(".section__postAnAdUpload-gallery-action_up")) newCurrentEl.querySelector(".section__postAnAdUpload-gallery-action_up").remove();
+            if (newCurrentEl.querySelector(".section__postAnAdUpload-gallery-action_down")) newCurrentEl.querySelector(".section__postAnAdUpload-gallery-action_down").remove();
+            if (newAnotherEl.querySelector(".section__postAnAdUpload-gallery-action_up")) newAnotherEl.querySelector(".section__postAnAdUpload-gallery-action_up").remove();
+            if (newAnotherEl.querySelector(".section__postAnAdUpload-gallery-action_down")) newAnotherEl.querySelector(".section__postAnAdUpload-gallery-action_down").remove();
+            let upCur = "";
+            let downCur = "";
+            let upAnoth = "";
+            let downAnoth = "";
+
+            if (newCurrentEl.getAttribute("data-img-position") > 0) {
+                upCur = `<button class="_change_position section__postAnAdUpload-gallery-action_btn section__postAnAdUpload-gallery-action_up">Up</button>`;
+            }
+            if (newCurrentEl.getAttribute("data-img-position") < countItems - 1) {
+                downCur = `<button class="_change_position section__postAnAdUpload-gallery-action_btn section__postAnAdUpload-gallery-action_down">Down</button>`;
+            }
+            if (newAnotherEl.getAttribute("data-img-position") > 0) {
+                upAnoth = `<button class="_change_position section__postAnAdUpload-gallery-action_btn section__postAnAdUpload-gallery-action_up">Up</button>`;
+            }
+            if (newAnotherEl.getAttribute("data-img-position") < countItems - 1) {
+                downAnoth = `<button class="_change_position section__postAnAdUpload-gallery-action_btn section__postAnAdUpload-gallery-action_down">Down</button>`;
+            }
+            newCurrentEl.querySelector(".section__postAnAdUpload-gallery-action").insertAdjacentHTML('afterBegin', `${downCur}`);
+            newCurrentEl.querySelector(".section__postAnAdUpload-gallery-action").insertAdjacentHTML('afterBegin', `${upCur}`);
+            newAnotherEl.querySelector(".section__postAnAdUpload-gallery-action").insertAdjacentHTML('afterBegin', `${downAnoth}`);
+            newAnotherEl.querySelector(".section__postAnAdUpload-gallery-action").insertAdjacentHTML('afterBegin', `${upAnoth}`);
+        } else {
+            alert(data.error);
+        }
+    });
+}
+
+async function sendPhoto(url = '', headers, data) {
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: headers,
+        body: data,
+    });
+    return await response.json();
+}

@@ -4977,3 +4977,178 @@ input::-webkit-inner-spin-button {
     border-bottom: 1px solid transparent;
   }
 /* Autocomplete End */
+
+
+/* Post an ad: Section 3 Start*/
+.section__postAnAdRules {
+    border: 1px solid #DCDCDC;
+    padding: 0 20px;
+    margin: 40px 10px 10px;
+    border-radius: 4px;
+}
+.section__postAnAdRules-title {
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bold;
+    font-family: Archivo, sans-serif;
+    margin: 20px 0;
+}
+.section__postAnAdRules-body ul {
+    padding-left: 20px;
+}
+
+.section__postAnAdRules-body li {
+    font-family: Archivo, sans-serif;
+    font-size: .8em;
+    line-height: 1.2em;
+    margin-bottom: 5px;
+}
+.section__postAnAdRules-body ul li:last-child {
+    margin-bottom: 0;
+}
+
+.section__postAnAdRules-body p {
+    margin: 20px 0;
+    font-family: Archivo, sans-serif;
+    font-size: .8em;
+    line-height: 1.4em;
+}
+.section__postAnAdRules-body button {
+   margin: 20px 0;
+   width: 100%;
+}
+
+.section__postAnAdUpload-gallery-state {
+    margin-top: 20px;
+}
+.section__postAnAdUpload-gallery-state span {
+    font-size: .8em;
+    font-weight: bold;
+    font-family: Archivo, sans-serif;
+}
+.section__postAnAdUpload-gallery-state span._verify {
+    color: green;
+}
+.section__postAnAdUpload-gallery-state span._unverify {
+    color: red;
+}
+.section__postAnAdUpload-gallery-state a {
+    display: inline-block;
+    margin-left: 10px;
+    font-family: Archivo, sans-serif;
+    font-size: .8em;
+    color: #222222;
+    text-align: right;
+}
+
+#browseImage {
+    display: none;
+}
+.section__postAnAdUpload-title {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: Archivo, sans-serif;
+    margin: 20px 0;
+}
+.section__postAnAdUpload-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    padding: 0 20px;
+    height: 30px;
+    border: none;
+    outline: none;
+    background: #DD0A6A;
+    border-radius: 4px;
+    font-family: Archivo, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 15px;
+    text-align: center;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+.section__postAnAdUpload-button[disabled] {
+    background: #dddcdc;
+    cursor: auto;
+}
+.section__postAnAdUpload {
+    width: 100%;
+    padding: 0 10px;
+}
+.section__postAnAdUpload-action {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+.section__postAnAdUpload-gallery {
+    padding: 20px 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 20px;
+}
+
+.section__postAnAdUpload-gallery-item {
+    width: 100%;
+    max-width: 360px;
+    height: auto;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    padding: 10px;
+    border: 1px solid #DCDCDC;
+}
+.section__postAnAdUpload-gallery-item._preview {
+    background: rgb(255 218 218);
+    margin-bottom: 50px;
+}
+.section__postAnAdUpload-gallery-action {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.section__postAnAdUpload-gallery-action > *:not(:last-child) {
+    margin-right: 10px;
+}
+.section__postAnAdUpload-gallery-action_remove {
+    margin-left: auto;
+}
+.section__postAnAdUpload-gallery-item img {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+.section__postAnAdUpload-gallery-action_btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        width: 70px;
+        height: 20px;
+        border: none;
+        outline: none;
+        border: 1px solid #DD0A6A;
+        background: #fff;
+        border-radius: 4px;
+        font-family: Archivo, sans-serif;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 1em;
+        text-align: center;
+        color: #222222;
+        cursor: pointer;
+        transition: all .1s;
+}
+.section__postAnAdUpload-gallery-action_btn:hover {
+    background: #DD0A6A;
+    color: #fff;
+}
+
+/* Post an ad: Section 3 End*/
