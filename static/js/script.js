@@ -82,8 +82,10 @@ function uploadImage () {
     const headers = new Headers();
     headers.append('X-CSRFToken', csrf);
     formData.append("image", file);
+    console.log("Formdata: ", formData.get("image"))
     sendPhoto(uploadImageHandler, headers, formData)
     .then(data => {
+        console.log("Полученный объект: ", data)
       removePreviewImage(document.querySelector(`[data-img-name="${file.name}"]`));
       changeStateButtons();
       galleryField.innerHTML = "";
@@ -111,8 +113,7 @@ function changeStateButtons (state = true) {
     }
 }
 
-function insertImage (data, length=0 ) {
-    console.log(data)
+function insertImage (data, length=0 ) {    
     let up = "";
     let down = "";
     let state = "";
