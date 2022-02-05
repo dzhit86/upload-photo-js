@@ -112,10 +112,11 @@ function changeStateButtons (state = true) {
 }
 
 function insertImage (data, length=0 ) {
+    console.log(data)
     let up = "";
     let down = "";
     let state = "";
-    if (!data.is_verified) {
+    if (data.is_verified !== "False") {
         state = `<span class="_verify">Photo is verified</span>`;
     } else {
         state = `<span class="_unverify">Photo is not verified</span><a href="#rulesBlock">(Why?)</a>`;
