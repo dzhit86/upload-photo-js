@@ -97,7 +97,8 @@ function uploadImage () {
             if (data.length) {insertImage(element, min, max)}
             else {insertImage(element, min)};
         }
-    }); 
+        
+    });
 }
 
 function changeStateButtons (state = true) {
@@ -161,14 +162,25 @@ function changePosition(event) {
     const minPosition = sortedAllItems[0];
 
     let anotherPosition = "";
-    if (event.target.classList.contains("section__postAnAdUpload-gallery-action_up")) {
+    let anotherId = false;
+
+    if (event.target.classList.contains("section__postAnAdUpload-gallery-action_up")) {        
         anotherPosition = +currentPosition - 1;
+        while (!anotherId) {
+            anotherId = galleryField.querySelector(`[data-img-position="${anotherPosition}"]`).id;         
+            anotherPosition--;   
+        }
     }
     if (event.target.classList.contains("section__postAnAdUpload-gallery-action_down")) {
         anotherPosition = +currentPosition + 1;
+        while (!anotherId) {
+            anotherId = galleryField.querySelector(`[data-img-position="${anotherPosition}"]`).id;         
+            anotherPosition++;   
+        }
     }
     
-    const anotherId = galleryField.querySelector(`[data-img-position="${anotherPosition}"]`).id;
+    //const anotherId = galleryField.querySelector(`[data-img-position="${anotherPosition}"]`).id;
+
     const formData = new FormData();
     const headers = new Headers();
     headers.append('X-CSRFToken', csrf);
@@ -232,6 +244,12 @@ async function sendPhoto(url = '', headers, data) {
         body: data,
     });
     return await response.json();
+}
+
+function selectFirstPoto(element) {
+    element.style.background = "#D8FDD2";
+    const mark = `<span class="section__postAnAdUpload-gallery-mark">`;
+    element.insertAdjacentHTML("afterBegin", mark);
 }
 
 function comparePositions(a, b) { 
