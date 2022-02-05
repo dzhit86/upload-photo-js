@@ -3,6 +3,7 @@ const uploadButton = document.querySelector(".section__postAnAdUpload-upload");
 const galleryField = document.querySelector(".section__postAnAdUpload-gallery");
 const inputField = document.querySelector("#browseImage");
 const actionField = document.querySelector(".section__postAnAdUpload-action");
+const fileNameField = document.querySelector(".section__postAnAdUpload-browserName");
 
 let file = [];
 
@@ -26,16 +27,14 @@ function changeHandler (event) {
     changeStateButtons(false);
     const reader = new FileReader();
     reader.onload = (event) => {
-        galleryField.insertAdjacentHTML('afterbegin', `
+        document.querySelector(".section__postAnAdUpload-action_preview").insertAdjacentHTML('afterbegin', `
         <div class="section__postAnAdUpload-gallery-item _preview" id="" data-img-position="" data-img-name="${file.name}">
-        <img src="${event.target.result}" alt="${file.name}">
-        <div class="section__postAnAdUpload-gallery-action">
-            <button class="section__postAnAdUpload-gallery-action_btn section__postAnAdUpload-gallery-action_remove">Delete</button>
+            <img src="${event.target.result}" alt="${file.name}">
         </div>
-      </div>
         `)
       }
       reader.readAsDataURL(file);
+      fileNameField.innerText = file.name;
 }
 
 function imageHandler (event) {
@@ -86,6 +85,7 @@ function uploadImage () {
       removePreviewImage(document.querySelector(`[data-img-name="${file.name}"]`));
       changeStateButtons();
       galleryField.innerHTML = "";
+      fileNameField.innerText = "";
       for (let index = 0; index < data.length; index++) {
           const element = data[index];
           if (data.length) {insertImage(element, data.length)}
@@ -97,13 +97,13 @@ function uploadImage () {
 
 function changeStateButtons (state = true) {
     if (state) {
-        browserButton.removeAttribute("disabled");
-        inputField.removeAttribute("disabled");
+        // browserButton.removeAttribute("disabled");
+        // inputField.removeAttribute("disabled");
         uploadButton.style.display = "none";
         uploadButton.setAttribute("disabled", true);
     } else {
-        browserButton.setAttribute("disabled", true);
-        inputField.setAttribute("disabled", true);
+        // browserButton.setAttribute("disabled", true);
+        // inputField.setAttribute("disabled", true);
         uploadButton.style.display = "inline-flex";
         uploadButton.removeAttribute("disabled");
     }

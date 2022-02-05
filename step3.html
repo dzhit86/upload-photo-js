@@ -219,9 +219,15 @@ Post An Ad - Step 3
                 <div class="section__postAnAdUpload">
                     <div class="section__postAnAdUpload-title">Upload your photo</div>
                     <div class="section__postAnAdUpload-action">
-                        <input type="file" id="browseImage" accept=".jpg,.jpeg,.png">
-                        <button class="section__postAnAdUpload-button section__postAnAdUpload-browse">Browse</button>
-                        <button class="section__postAnAdUpload-button section__postAnAdUpload-upload" style="display: none;" disabled="true">Upload</button>
+                        <div class="section__postAnAdUpload-action_buttons">
+                            <div class="section__postAnAdUpload-browserField">
+                                <input type="file" id="browseImage" accept=".jpg,.jpeg,.png">
+                                <button class="section__postAnAdUpload-button section__postAnAdUpload-browse">Browse</button>
+                                <div class="section__postAnAdUpload-browserName"></div>
+                            </div>
+                            <button class="section__postAnAdUpload-button section__postAnAdUpload-upload" style="display: none;" disabled="true">Upload</button>
+                        </div>
+                        <div class="section__postAnAdUpload-action_preview"></div>
                     </div>
                     <div class="section__postAnAdUpload-gallery"></div>
                 </div>                
