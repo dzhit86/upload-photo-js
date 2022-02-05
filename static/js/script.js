@@ -84,7 +84,7 @@ function uploadImage () {
     formData.append("image", file);
     
     sendPhoto(uploadImageHandler, headers, formData)
-    .then(data => {
+    .then(data => {        
         data.sort(comparePositions);
         removePreviewImage(document.querySelector(`[data-img-name="${file.name}"]`));
         changeStateButtons();
@@ -166,21 +166,26 @@ function changePosition(event) {
 
     if (event.target.classList.contains("section__postAnAdUpload-gallery-action_up")) {        
         anotherPosition = +currentPosition - 1;
-        while (!anotherId) {
-            anotherId = galleryField.querySelector(`[data-img-position="${anotherPosition}"]`).id;         
-            anotherPosition--;   
+        while (!anotherId) {            
+            if (galleryField.querySelector(`[data-img-position="${anotherPosition}"]`)) {
+                anotherId = galleryField.querySelector(`[data-img-position="${anotherPosition}"]`).id;
+                break;
+            } else {
+                anotherPosition--;
+            }
         }
     }
     if (event.target.classList.contains("section__postAnAdUpload-gallery-action_down")) {
         anotherPosition = +currentPosition + 1;
         while (!anotherId) {
-            anotherId = galleryField.querySelector(`[data-img-position="${anotherPosition}"]`).id;         
-            anotherPosition++;   
+            if (galleryField.querySelector(`[data-img-position="${anotherPosition}"]`)) {
+                anotherId = galleryField.querySelector(`[data-img-position="${anotherPosition}"]`).id;
+                break;
+            } else {
+                anotherPosition++;
+            } 
         }
     }
-    
-    //const anotherId = galleryField.querySelector(`[data-img-position="${anotherPosition}"]`).id;
-
     const formData = new FormData();
     const headers = new Headers();
     headers.append('X-CSRFToken', csrf);
