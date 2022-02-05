@@ -56,8 +56,8 @@ function removePreviewImage (element) {
         const name = document.getElementById(id).getAttribute("data-img-name");
         const formData = new FormData();
         const headers = new Headers();
-        //const data = {"photo_id": id}
-        formData.append("delete", name);        
+
+        formData.append("delete", id);        
         sendPhoto(deleteImageHandler, headers, formData)
         .then( data => {
             galleryField.innerHTML = "";
