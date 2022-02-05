@@ -222,14 +222,11 @@ async function sendPhoto(url = '', headers, data) {
     return await response.json();
 }
 
-function comparePositions(a, b) {
-    const positionA = a.position.toUpperCase();
-    const positionB = b.position.toUpperCase();
-  
+function comparePositions(a, b) { 
     let comparison = 0;
-    if (positionA > positionB) {
+    if (a.position > b.position) {
       comparison = 1;
-    } else if (positionA < positionB) {
+    } else if (a.position < b.position) {
       comparison = -1;
     }
     return comparison;
