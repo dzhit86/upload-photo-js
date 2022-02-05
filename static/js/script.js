@@ -91,9 +91,10 @@ function uploadImage () {
         galleryField.innerHTML = "";
         fileNameField.innerText = "";
         for (let index = 0; index < data.length; index++) {
-            let min = data[0]
+            let min = data[0].position
+            let max = data[data.length-1].position;
             const element = data[index];
-            if (data.length) {insertImage(element, min, data.length)}
+            if (data.length) {insertImage(element, min, max)}
             else {insertImage(element, min)};
         }
     }); 
@@ -113,7 +114,9 @@ function changeStateButtons (state = true) {
     }
 }
 
-function insertImage (data, min, length=0 ) {    
+function insertImage (data, min, max=0 ) {
+        console.log("Минимальная", min)    
+        console.log("Максимальная", max)        
     let up = "";
     let down = "";
     let state = "";
@@ -126,7 +129,7 @@ function insertImage (data, min, length=0 ) {
     if (data.position > min) {
         up = `<button class="_change_position section__postAnAdUpload-gallery-action_btn section__postAnAdUpload-gallery-action_up">Up</button>`;
     }
-    if (data.position < length - 1) {
+    if (data.position < max) {
         down = `<button class="_change_position section__postAnAdUpload-gallery-action_btn section__postAnAdUpload-gallery-action_down">Down</button>`;
     }
     document.querySelector(".section__postAnAdUpload-gallery").insertAdjacentHTML('beforeend', `
