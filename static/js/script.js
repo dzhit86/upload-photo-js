@@ -56,7 +56,7 @@ function removePreviewImage (element) {
         const name = document.getElementById(id).getAttribute("data-img-name");
         const formData = new FormData();
         const headers = new Headers();
-
+        headers.append('X-CSRFToken', csrf);
         formData.append("delete", id);        
         sendPhoto(deleteImageHandler, headers, formData)
         .then( data => {
@@ -79,6 +79,7 @@ function removePreviewImage (element) {
 function uploadImage () {
     const formData = new FormData();
     const headers = new Headers();
+    headers.append('X-CSRFToken', csrf);
     formData.append("image", file);
     sendPhoto(uploadImageHandler, headers, formData)
     .then(data => {
@@ -151,7 +152,7 @@ function changePosition(event) {
     const anotherId = galleryField.querySelector(`[data-img-position="${anotherPosition}"]`).id;
     const formData = new FormData();
     const headers = new Headers();
-
+    headers.append('X-CSRFToken', csrf);
     formData.append("current_photo_id", currentId);  
     formData.append("another_photo_id", anotherId);  
     sendPhoto(changePositionImageHandler, headers, formData)
