@@ -85,20 +85,22 @@ function uploadImage () {
     
     sendPhoto(uploadImageHandler, headers, formData)
     .then(data => {        
-        console.log(data);
-        data.sort(comparePositions);
-        removePreviewImage(document.querySelector(`[data-img-name="${file.name}"]`));
-        changeStateButtons();
-        galleryField.innerHTML = "";
-        fileNameField.innerText = "";
-        for (let index = 0; index < data.length; index++) {
-            let min = data[0].position
-            let max = data[data.length-1].position;
-            const element = data[index];
-            if (data.length) {insertImage(element, min, max)}
-            else {insertImage(element, min)};
-        }
-        
+        if (data.success === "true") {
+            data.sort(comparePositions);
+            removePreviewImage(document.querySelector(`[data-img-name="${file.name}"]`));
+            changeStateButtons();
+            galleryField.innerHTML = "";
+            fileNameField.innerText = "";
+            for (let index = 0; index < data.length; index++) {
+                let min = data[0].position
+                let max = data[data.length-1].position;
+                const element = data[index];
+                if (data.length) {insertImage(element, min, max)}
+                else {insertImage(element, min)};
+            } 
+        } else {
+            alert(data.error + " Please refresh the page");
+        }        
     });
 }
 
