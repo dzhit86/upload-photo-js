@@ -26,13 +26,15 @@ function changeHandler (event) {
     }
     changeStateButtons(false);
     const reader = new FileReader();
+    
     reader.onload = (event) => {
-        document.querySelector(".section__postAnAdUpload-action_preview").insertAdjacentHTML('afterbegin', `
+        document.querySelector(".section__postAnAdUpload-action_preview").innerHTML = `
         <div class="section__postAnAdUpload-gallery-item _preview" id="" data-img-position="" data-img-name="${file.name}">
             <img src="${event.target.result}" alt="${file.name}">
         </div>
-        `)
+        `;
       }
+      inputField.value = "";
       reader.readAsDataURL(file);
       fileNameField.innerText = file.name;
 }
