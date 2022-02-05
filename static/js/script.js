@@ -85,7 +85,7 @@ function uploadImage () {
     
     sendPhoto(uploadImageHandler, headers, formData)
     .then(data => {        
-        if (data.success === "true") {
+        if (!data.error) {
             data.sort(comparePositions);
             removePreviewImage(document.querySelector(`[data-img-name="${file.name}"]`));
             changeStateButtons();
