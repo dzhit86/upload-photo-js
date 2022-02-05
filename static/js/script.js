@@ -87,6 +87,7 @@ function uploadImage () {
     .then(data => {
         console.log("Полученный объект до сортировки: ", data)
         data.sort((prev, next) => {prev.position - next.position});
+        data.sort(compare);
         console.log("Полученный объект после сортировки: ", data)
       removePreviewImage(document.querySelector(`[data-img-name="${file.name}"]`));
       changeStateButtons();
@@ -220,3 +221,16 @@ async function sendPhoto(url = '', headers, data) {
     });
     return await response.json();
 }
+
+function comparePositions(a, b) {
+    const positionA = a.position.toUpperCase();
+    const positionB = b.position.toUpperCase();
+  
+    let comparison = 0;
+    if (positionA > positionB) {
+      comparison = 1;
+    } else if (positionA < positionB) {
+      comparison = -1;
+    }
+    return comparison;
+  }
