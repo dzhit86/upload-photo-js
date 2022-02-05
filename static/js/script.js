@@ -114,9 +114,7 @@ function changeStateButtons (state = true) {
     }
 }
 
-function insertImage (data, min, max=0 ) {
-        console.log("Минимальная", min)    
-        console.log("Максимальная", max)        
+function insertImage (data, min, max=0 ) {       
     let up = "";
     let down = "";
     let state = "";
@@ -148,6 +146,20 @@ function insertImage (data, min, max=0 ) {
 function changePosition(event) {
     const currentId = event.target.closest(".section__postAnAdUpload-gallery-item").id;
     const currentPosition = document.getElementById(currentId).getAttribute("data-img-position");
+
+    const allItems = document.querySelectorAll(".section__postAnAdUpload-gallery-item");
+    let sortedAllItems = [];
+
+    for (let index = 0; index < allItems.length; index++) {
+        const element = allItems[index];
+        sortedAllItems[index] = element.getAttribute("data-img-position");
+    }
+    sortedAllItems.sort(function(a, b) {
+        return a - b;
+    });
+    const maxPosition = allItems[allItems.length - 1].getAttribute("data-img-position");
+    const minPosition = sortedAllItems[0];
+
     let anotherPosition = "";
     if (event.target.classList.contains("section__postAnAdUpload-gallery-action_up")) {
         anotherPosition = +currentPosition - 1;
@@ -191,16 +203,16 @@ function changePosition(event) {
             let upAnoth = "";
             let downAnoth = "";
 
-            if (newCurrentEl.getAttribute("data-img-position") > 0) {
+            if (newCurrentEl.getAttribute("data-img-position") > minPosition) {
                 upCur = `<button class="_change_position section__postAnAdUpload-gallery-action_btn section__postAnAdUpload-gallery-action_up">Up</button>`;
             }
-            if (newCurrentEl.getAttribute("data-img-position") < countItems - 1) {
+            if (newCurrentEl.getAttribute("data-img-position") < maxPosition) {
                 downCur = `<button class="_change_position section__postAnAdUpload-gallery-action_btn section__postAnAdUpload-gallery-action_down">Down</button>`;
             }
-            if (newAnotherEl.getAttribute("data-img-position") > 0) {
+            if (newAnotherEl.getAttribute("data-img-position") > minPosition) {
                 upAnoth = `<button class="_change_position section__postAnAdUpload-gallery-action_btn section__postAnAdUpload-gallery-action_up">Up</button>`;
             }
-            if (newAnotherEl.getAttribute("data-img-position") < countItems - 1) {
+            if (newAnotherEl.getAttribute("data-img-position") < maxPosition) {
                 downAnoth = `<button class="_change_position section__postAnAdUpload-gallery-action_btn section__postAnAdUpload-gallery-action_down">Down</button>`;
             }
             newCurrentEl.querySelector(".section__postAnAdUpload-gallery-action").insertAdjacentHTML('afterBegin', `${downCur}`);
