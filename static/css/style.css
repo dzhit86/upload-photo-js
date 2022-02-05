@@ -5174,4 +5174,12 @@ input::-webkit-inner-spin-button {
     color: #fff;
 }
 
+.section__postAnAdUpload-gallery-mark {
+    font-family: Archivo, sans-serif;
+    display: inline-block;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 12px;
+}
+
 /* Post an ad: Section 3 End*/

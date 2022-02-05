@@ -67,6 +67,7 @@ function removePreviewImage (element) {
                     if (data.length) {insertImage(element, min, max)}
                     else {insertImage(element, min)};
                 }
+                selectFirstPoto(document.querySelectorAll(".section__postAnAdUpload-gallery-item")[0]);
             } else {
                 alert(data.error);
             }
@@ -102,6 +103,7 @@ function uploadImage () {
                 if (data.length) {insertImage(element, min, max)}
                 else {insertImage(element, min)};
             } 
+            selectFirstPoto(document.querySelectorAll(".section__postAnAdUpload-gallery-item")[0]);
         } else {
             alert(data.error + " Please refresh the page");
         }        
@@ -243,6 +245,7 @@ function changePosition(event) {
             newCurrentEl.querySelector(".section__postAnAdUpload-gallery-action").insertAdjacentHTML('afterBegin', `${upCur}`);
             newAnotherEl.querySelector(".section__postAnAdUpload-gallery-action").insertAdjacentHTML('afterBegin', `${downAnoth}`);
             newAnotherEl.querySelector(".section__postAnAdUpload-gallery-action").insertAdjacentHTML('afterBegin', `${upAnoth}`);
+            selectFirstPoto(document.querySelectorAll(".section__postAnAdUpload-gallery-item")[0]);
         } else {
             alert(data.error);
         }
@@ -259,8 +262,16 @@ async function sendPhoto(url = '', headers, data) {
 }
 
 function selectFirstPoto(element) {
+    const allItems = document.querySelectorAll(".section__postAnAdUpload-gallery-item");
+    for (let index = 0; index < allItems.length; index++) {
+        const curElement = allItems[index];
+        curElement.style.background = "";
+        if(curElement.querySelector(".section__postAnAdUpload-gallery-mark")) {
+            curElement.querySelector(".section__postAnAdUpload-gallery-mark").remove();
+        }
+    }
     element.style.background = "#D8FDD2";
-    const mark = `<span class="section__postAnAdUpload-gallery-mark">`;
+    const mark = `<span class="section__postAnAdUpload-gallery-mark">Main photo</span>`;
     element.insertAdjacentHTML("afterBegin", mark);
 }
 
@@ -272,4 +283,4 @@ function comparePositions(a, b) {
       comparison = -1;
     }
     return comparison;
-  }
+}
