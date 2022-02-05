@@ -85,20 +85,17 @@ function uploadImage () {
     
     sendPhoto(uploadImageHandler, headers, formData)
     .then(data => {
-        console.log("Полученный объект до сортировки: ", data)
-        data.sort((prev, next) => {prev.position - next.position});
         data.sort(comparePositions);
-        console.log("Полученный объект после сортировки: ", data)
-      removePreviewImage(document.querySelector(`[data-img-name="${file.name}"]`));
-      changeStateButtons();
-      galleryField.innerHTML = "";
-      fileNameField.innerText = "";
-      for (let index = 0; index < data.length; index++) {
-          const element = data[index];
-          if (data.length) {insertImage(element, data.length)}
-          else {insertImage(element)};
-      }
-
+        removePreviewImage(document.querySelector(`[data-img-name="${file.name}"]`));
+        changeStateButtons();
+        galleryField.innerHTML = "";
+        fileNameField.innerText = "";
+        for (let index = 0; index < data.length; index++) {
+            let min = data[0]
+            const element = data[index];
+            if (data.length) {insertImage(element, min, data.length)}
+            else {insertImage(element, min)};
+        }
     }); 
 }
 
@@ -116,7 +113,7 @@ function changeStateButtons (state = true) {
     }
 }
 
-function insertImage (data, length=0 ) {    
+function insertImage (data, min, length=0 ) {    
     let up = "";
     let down = "";
     let state = "";
@@ -126,7 +123,7 @@ function insertImage (data, length=0 ) {
         state = `<span class="_unverify">Photo is not verified</span><a href="#rulesBlock">(Why?)</a>`;
     }
 
-    if (data.position > 0) {
+    if (data.position > min) {
         up = `<button class="_change_position section__postAnAdUpload-gallery-action_btn section__postAnAdUpload-gallery-action_up">Up</button>`;
     }
     if (data.position < length - 1) {
