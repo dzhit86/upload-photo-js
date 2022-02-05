@@ -49,9 +49,6 @@ function imageHandler (event) {
 }
 
 function removePreviewImage (element) {
-    if (element.target && element.target.closest("._preview")) {
-        element.target.closest("._preview").remove();
-    }
     if (element.target && element.target.hasAttribute("data-img-id")) {
         const id = element.target.getAttribute("data-img-id");
         const name = document.getElementById(id).getAttribute("data-img-name");
@@ -61,10 +58,17 @@ function removePreviewImage (element) {
         formData.append("delete", id);        
         sendPhoto(deleteImageHandler, headers, formData)
         .then( data => {
-            galleryField.innerHTML = "";
-            for (let index = 0; index < data.length; index++) {
-                const element = data[index];
-                insertImage(element, data.length);          
+            if (!data.error) {
+                galleryField.innerHTML = "";
+                for (let index = 0; index < data.length; index++) {
+                    let min = data[0].position
+                    let max = data[data.length-1].position;
+                    const element = data[index];
+                    if (data.length) {insertImage(element, min, max)}
+                    else {insertImage(element, min)};
+                }
+            } else {
+                alert(data.error);
             }
         });
         
